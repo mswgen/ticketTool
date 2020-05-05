@@ -29,7 +29,7 @@ client.on('ready', async () => {
         const collector = await m.createReactionCollector(filter);
         collector.on('collect', async (r, u) => {
             await r.users.remove(u);
-            await client.guilds.cache.get('707028253218570280').channels.create(`티켓 ${u.id} ${Math.floor(Math.random() * 10000) + 1}`, {
+            await client.guilds.cache.get('707028253218570280').channels.create(`🎫│티켓 ${u.id} ${Math.floor(Math.random() * 10000) + 1}`, {
                 permissionOverwrites: [
                     {
                         id: r.message.guild.roles.everyone.id,
