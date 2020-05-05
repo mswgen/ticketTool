@@ -59,7 +59,8 @@ client.on('ready', async () => {
                             'SEND_MESSAGES'
                         ]
                     }
-                ]
+                ],
+                parent: '707173894221594644'
             }).then(async ch => {
                 await ch.send(`${u.toString()} ${r.message.guild.roles.cache.get('707111485754703893')} ${r.message.guild.roles.cache.get('707118171634794527')}`)
                 const ___embed = new Discord.MessageEmbed()
