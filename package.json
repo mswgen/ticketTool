@@ -1,0 +1,23 @@
+{
+    "name": "ticket_tool",
+    "description": "a private discord ticket bot",
+    "main": "start.js",
+    "keywords": [
+        "discord bot",
+        "ticket"
+    ],
+    "engines": {
+        "node": "12.x"
+    },
+    "scripts": {
+        "start": "node start.js"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "mswgen"
+    },
+    "dependencies": {
+        "discord.js": "12.1.1",
+        "dotenv": "8.2.0"
+    }
+}
