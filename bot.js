@@ -1,12 +1,46 @@
 const { MessageEmbed, Client } = require('discord.js');
 const client = new Client();
 const dotenv = require('dotenv');
+const web = require('./web.js');
 dotenv.config({
     path: './.env'
 });
 client.on('ready', async () => {
     console.log(`Login ${client.user.username}
 -------------------------------`);
+    setInterval(async () => {
+        var random = Math.floor(Math.random() * 4);
+        if (random == 0) {
+            await client.user.setPresence({
+                status: 'online',
+                    activity: {
+                        name: '건의사항 채널에서 이모지를 눌러서 티켓 열기',
+                        type: 'PLAYING'
+                    }
+            });
+        } else if (random == 1) {
+            await client.user.setPresence({
+                status: 'online',
+                    activity: {
+                        name: client.user.username,
+                        type: 'STREAMING',
+                        url: `https://twitch.tv/${client.user.username}`
+                    }
+            });
+        } else if (random == 2) {
+            await client.user.setPresence({
+                status: 'invisible'
+            });
+        } else if (random == 3) {
+            await client.user.setPresence({
+                status: 'online',
+                    activity: {
+                        name: '티켓 채널에서 X를 눌러서 티켓 닫기',
+                        type: 'PLAYING'
+                    }
+            });
+        }
+    }, 5000);
     await client.channels.cache.get('707151006617829488').bulkDelete(1);
     const embed = new MessageEmbed()
         .setTitle('티켓 열기')
@@ -136,3 +170,4 @@ client.on('guildUpdate', async (_old, _new) => {
     }));
 });
 client.login(process.env.TOKEN);
+web.create(client);
