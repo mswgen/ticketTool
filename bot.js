@@ -11,7 +11,7 @@ client.on('ready', async () => {
     const embed = new Discord.MessageEmbed()
         .setTitle('티켓 열기')
         .setColor(0x00ffff)
-        .setDescription('건의사항이 있다면 아래 반응을 눌러 티켓을 열어주세요\n봇이 재시작되었을 경우 티켓을 닫을 때 반응을 눌러도 닫히지 않을 수 있습니다.\n티켓이 자동으로 닫히지 않으면 수동으로 채널을 삭제해주세요.')
+        .setDescription('건의사항이 있다면 아래 반응을 눌러 티켓을 열어주세요.\n봇이 재시작되었을 경우 티켓을 닫을 때 반응을 눌러도 닫히지 않을 수 있어요.\n티켓이 자동으로 닫히지 않으면 수동으로 채널을 삭제해주세요.')
         .setThumbnail(client.guilds.cache.get('707028253218570280').iconURL({
             dynamic: true,
             format: 'jpg',
@@ -60,7 +60,7 @@ client.on('ready', async () => {
                         ]
                     }
                 ],
-                parent: '707173894221594644'
+                parent: r.message.guild.channels.cache.find(x => x.type == 'category' && x.name == '🎫 티켓')
             }).then(async ch => {
                 await ch.send(`${u.toString()} ${r.message.guild.roles.cache.get('707111485754703893')} ${r.message.guild.roles.cache.get('707118171634794527')}`)
                 const ___embed = new Discord.MessageEmbed()
