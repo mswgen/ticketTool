@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const { MessageEmbed, Client } = require('discord.js');
+const client = new Client();
 const dotenv = require('dotenv');
 dotenv.config({
     path: './.env'
@@ -8,7 +8,7 @@ client.on('ready', async () => {
     console.log(`Login ${client.user.username}
 -------------------------------`);
     await client.channels.cache.get('707151006617829488').bulkDelete(1);
-    const embed = new Discord.MessageEmbed()
+    const embed = new MessageEmbed()
         .setTitle('티켓 열기')
         .setColor(0x00ffff)
         .setDescription('건의사항이 있다면 아래 반응을 눌러 티켓을 열어주세요.\n봇이 재시작되었을 경우 티켓을 닫을 때 반응을 눌러도 닫히지 않을 수 있어요.\n티켓이 자동으로 닫히지 않으면 수동으로 채널을 삭제해주세요.')
@@ -63,7 +63,7 @@ client.on('ready', async () => {
                 parent: r.message.guild.channels.cache.find(x => x.type == 'category' && x.name == '🎫 티켓')
             }).then(async ch => {
                 await ch.send(`${u.toString()} ${r.message.guild.roles.cache.get('707111485754703893')} ${r.message.guild.roles.cache.get('707118171634794527')}`)
-                const ___embed = new Discord.MessageEmbed()
+                const ___embed = new MessageEmbed()
                     .setTitle(`${client.user.username} 로그`)
                     .addField('타입', '티켓 생성')
                     .addField('티켓 채널', ch.toString())
@@ -81,7 +81,7 @@ client.on('ready', async () => {
                     }))
                     .setTimestamp();
                 await client.channels.cache.get('707156036217208883').send(___embed);
-                const _embed = new Discord.MessageEmbed()
+                const _embed = new MessageEmbed()
                     .setTitle('티켓 닫기')
                     .setDescription('티켓을 닫으려면 아래 이모지를 눌러주세요')
                     .setColor(0x00ffff)
@@ -104,7 +104,7 @@ client.on('ready', async () => {
                     });
                     _collector.on('end', async collected => {
                         await collected.first().message.channel.delete();
-                        const __embed = new Discord.MessageEmbed()
+                        const __embed = new MessageEmbed()
                             .setTitle(`${client.user.username} 로그`)
                             .addField('타입', '티켓 닫음')
                             .addField('티켓 채널', `\`#${collected.first().message.channel.name}\``)
@@ -127,5 +127,12 @@ client.on('ready', async () => {
             });
         });
     });
+});
+client.on('guildUpdate', async (_old, _new) => {
+    await client.user.setAvatar(_new.iconURL({
+        dynamic: true,
+        format: 'jpg',
+        size: 2048
+    }));
 });
 client.login(process.env.TOKEN);
