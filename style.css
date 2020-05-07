@@ -10,3 +10,7 @@ body {
     width: 80vw;
     height: 300px;
 }
+a {
+    text-decoration-color: black;
+    text-decoration-line: none;
+}
