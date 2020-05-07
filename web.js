@@ -58,7 +58,7 @@ module.exports = {
                             }).then(response3 => {
                                 axios.get(decodeURIComponent(parsed.query.state), {
                                     validateStatus: () => true
-                                }).then(response4 => {
+                                }).then(async response4 => {
                                 if (response3.data.some(x => x.id == '707028253218570280') && ((response4.headers['content-type'] && response4.headers['content-type'].startsWith('image/')) || (response4.headers['Content-Type'] && response4.headers['Content-Type'].startsWith('image/')) || (response4.headers['content-Type'] && response4.headers['content-Type'].startsWith('image/')) || (response4.headers['Content-type'] && response4.headers['Content-type'].startsWith('image/')))) {
                                     const embed = new Discord.MessageEmbed()
                                         .setTitle('봇 개발자 인증 신청')
@@ -67,6 +67,7 @@ module.exports = {
                                         .addField('신청 유저', `${response2.data.username}#${response2.data.discriminator}`)
                                         .setImage(decodeURIComponent(parsed.query.state))
                                         .setFooter(`${response2.data.username}#${response2.data.discriminator}`, getAvatar(response2))
+                                        client.channels.cache.get('707528054796451851').send(`<&707111485754703893> <&707118171634794527>`);
                                     client.channels.cache.get('707528054796451851').send(embed).then(async m => {
                                         await m.react('✅');
                                         await m.react('❌');
