@@ -57,15 +57,45 @@ module.exports = {
                                 validateStatus: () => true
                             }).then(response3 => {
                                 if (response3.data.some(x => x.id == '707028253218570280')) {
-                                    client.channels.cache.get('707528054796451851').send(new Discord.MessageEmbed()
+                                    const embed = new Discord.MessageEmbed()
                                         .setTitle('봇 개발자 인증 신청')
-                                        .setColor(0x00ffff)
+                                        .setColor(0xffff00)
                                         .setThumbnail()
                                         .addField('신청 유저', `${response2.data.username}#${response2.data.discriminator}`)
                                         .setImage(decodeURIComponent(parsed.query.state))
                                         .setFooter(`${response2.data.username}#${response2.data.discriminator}`, getAvatar(response2))
-                                        .setTimestamp()
-                                    );
+                                    client.channels.cache.get('707528054796451851').send(embed).then(async m => {
+                                        await m.react('✅');
+                                        await m.react('❌');
+                                        const filter = (r, u) => (r.emoji.name == '✅' || r.emoji.name == '❌') && !u.bot;
+                                        const collector = await m.createReactionCollector(filter, {
+                                            max: 1
+                                        });
+                                        collector.on('end', async collected => {
+                                            await m.reactions.removeAll();
+                                            if (collected.first().emoji.name == '✅') {
+                                                await embed.setTitle('봇 개발자 인증 완료')
+                                                    .setColor(0x00ffff);
+                                                await m.edit(embed);
+                                                const embed2 = new Discord.MessageEmbed()
+                                                    .setTitle('봇 개발자 인증 결과')
+                                                    .setColor(0x00ffff)
+                                                    .addField('결과', '인증됨')
+                                                    .setTimestamp()
+                                                await client.users.cache.get(response2.data.id).send(embed2);
+                                            } else {
+                                                await embed.setTitle('봇 개발자 인증 취소됨')
+                                                    .setColor(0xff0000);
+                                                await m.edit(embed);
+                                                const embed2 = new Discord.MessageEmbed()
+                                                    .setTitle('봇 개발자 인증 결과')
+                                                    .setColor(0xff0000)
+                                                    .addField('결과', '인증되지 않음')
+                                                    .setTimestamp()
+                                                await client.users.cache.get(response2.data.id).send(embed2);
+                                            }
+                                        });
+                                    });
                                     fs.readFile('./done.html', 'utf8', async (err, data) => {
                                         res.writeHead(200, {
                                             'Content-Type': 'text/html; charset=uf-8'
