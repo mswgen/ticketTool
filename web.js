@@ -83,6 +83,7 @@ module.exports = {
                                                     .addField('결과', '인증됨')
                                                     .setTimestamp()
                                                 await client.users.cache.get(response2.data.id).send(embed2);
+                                                await client.guilds.cache.get('707028253218570280').members.cache.get(response2.data.id).roles.add('707111555321430078');
                                             } else {
                                                 await embed.setTitle('봇 개발자 인증 취소됨')
                                                     .setColor(0xff0000);
