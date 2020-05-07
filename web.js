@@ -60,7 +60,6 @@ module.exports = {
                                     validateStatus: () => true
                                 }).then(response4 => {
                                 if (response3.data.some(x => x.id == '707028253218570280') && ((response4.headers['content-type'] && response4.headers['content-type'].startsWith('image/')) || (response4.headers['Content-Type'] && response4.headers['Content-Type'].startsWith('image/')) || (response4.headers['content-Type'] && response4.headers['content-Type'].startsWith('image/')) || (response4.headers['Content-type'] && response4.headers['Content-type'].startsWith('image/')))) {
-                                    console.log(response4)
                                     const embed = new Discord.MessageEmbed()
                                         .setTitle('봇 개발자 인증 신청')
                                         .setColor(0xffff00)
