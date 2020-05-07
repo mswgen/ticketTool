@@ -82,6 +82,16 @@ module.exports = {
                                                     .setColor(0x00ffff)
                                                     .addField('결과', '인증되었어요! 개발자 역할이 지급되었어요.')
                                                     .setTimestamp()
+                                                    .setFooter(client.guilds.cache.get('707028253218570280').name, client.guilds.cache.get('707028253218570280').iconURL({
+                                                        dynamic: true,
+                                                        format: 'jpg',
+                                                        size: 2048
+                                                    }))
+                                                    .setThumbnail(client.guilds.cache.get('707028253218570280').iconURL({
+                                                        dynamic: true,
+                                                        format: 'jpg',
+                                                        size: 2048
+                                                    }))
                                                 await client.users.cache.get(response2.data.id).send(embed2);
                                                 await client.guilds.cache.get('707028253218570280').members.cache.get(response2.data.id).roles.add('707111555321430078');
                                             } else {
@@ -102,6 +112,16 @@ module.exports = {
                                                             .addField('결과', '인증되지 않았네요...')
                                                             .addField('인증 취소 사유', _collected.first().content)
                                                             .setTimestamp()
+                                                            .setFooter(client.guilds.cache.get('707028253218570280').name, client.guilds.cache.get('707028253218570280').iconURL({
+                                                                dynamic: true,
+                                                                format: 'jpg',
+                                                                size: 2048
+                                                            }))
+                                                            .setThumbnail(client.guilds.cache.get('707028253218570280').iconURL({
+                                                                dynamic: true,
+                                                                format: 'jpg',
+                                                                size: 2048
+                                                            }))
                                                         await client.users.cache.get(response2.data.id).send(embed2);
                                                     });
                                                 });
@@ -112,7 +132,7 @@ module.exports = {
                                         res.writeHead(200, {
                                             'Content-Type': 'text/html; charset=uf-8'
                                         });
-                                        res.end(data);
+                                        res.end(data.replace(/!!!!!!botTag!!!!!!/gi, client.user.tag));
                                     });
                                 } else {
                                     fs.readFile('./notinguild.html', 'utf8', async (err, data) => {
