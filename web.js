@@ -20,7 +20,9 @@ module.exports = {
                     'Content-Type': 'text/html; charset=utf-8'
                 });
                 fs.readFile('./logout.html', 'utf8', async (err, data) => {
-                    res.end(data);
+                    fs.readFile('./terms', 'utf8', (_err, _data) => {
+                        res.end(data.replace(/!!!!!!terms!!!!!!/gi, _data));
+                    });
                 });
             } else if (parsed.pathname == '/login') {
                 var stateCode = parsed.query.img_url;

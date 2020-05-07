@@ -5,3 +5,8 @@ body {
 #img-url {
     width: 70vw
 }
+#terms {
+    resize: none;
+    width: 80vw;
+    height: 300px;
+}
