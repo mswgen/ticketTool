@@ -78,22 +78,33 @@ module.exports = {
                                                     .setColor(0x00ffff);
                                                 await m.edit(embed);
                                                 const embed2 = new Discord.MessageEmbed()
-                                                    .setTitle('봇 개발자 인증 결과')
+                                                    .setTitle('봇 개발자 인증이 진행되었어요')
                                                     .setColor(0x00ffff)
-                                                    .addField('결과', '인증됨')
+                                                    .addField('결과', '인증되었어요! 개발자 역할이 지급되었어요.')
                                                     .setTimestamp()
                                                 await client.users.cache.get(response2.data.id).send(embed2);
                                                 await client.guilds.cache.get('707028253218570280').members.cache.get(response2.data.id).roles.add('707111555321430078');
                                             } else {
-                                                await embed.setTitle('봇 개발자 인증 취소됨')
-                                                    .setColor(0xff0000);
-                                                await m.edit(embed);
-                                                const embed2 = new Discord.MessageEmbed()
-                                                    .setTitle('봇 개발자 인증 결과')
-                                                    .setColor(0xff0000)
-                                                    .addField('결과', '인증되지 않음')
-                                                    .setTimestamp()
-                                                await client.users.cache.get(response2.data.id).send(embed2);
+                                                await m.channel.send('인증 취소 이유를 입력해주세요.').then(async () => {
+                                                    const _filter = (_m) => !_m.author.bot;
+                                                    const _collector = await m.channel.createMessageCollector(_filter, {
+                                                        max: 1
+                                                    });
+                                                    _collector.on('end', async _collected => {
+                                                        await m.channel.bulkDelete(2);
+                                                        await embed.setTitle('봇 개발자 인증 취소됨')
+                                                            .setColor(0xff0000)
+                                                            .addField('인증 취소 사유', _collected.first().content);
+                                                        await m.edit(embed);
+                                                        const embed2 = new Discord.MessageEmbed()
+                                                            .setTitle('봇 개발자 인증이 진행되었어요')
+                                                            .setColor(0xff0000)
+                                                            .addField('결과', '인증되지 않았네요...')
+                                                            .addField('인증 취소 사유', _collected.first().content)
+                                                            .setTimestamp()
+                                                        await client.users.cache.get(response2.data.id).send(embed2);
+                                                    });
+                                                });
                                             }
                                         });
                                     });
