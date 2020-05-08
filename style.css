@@ -14,3 +14,10 @@ a {
     text-decoration-color: black;
     text-decoration-line: none;
 }
+#recaptcha_container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

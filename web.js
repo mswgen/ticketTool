@@ -4,6 +4,7 @@ const url = require('url');
 const fs = require('fs');
 const qs = require('querystring');
 const Discord = require('discord.js');
+const nodemailer = require('nodemailer');
 function getAvatar (r) {
     if (r.data.avatar) {
         return `https://cdn.discordapp.com/avatars/${r.data.id}/${r.data.avatar}.jpg?size=4096`;
@@ -14,6 +15,7 @@ function getAvatar (r) {
 module.exports = {
     create: async client => {
         const server = http.createServer(async (req, res) => {
+            try {
             var parsed = url.parse(req.url, true);
             if (parsed.pathname == '/') {
                 res.writeHead(200, {
@@ -27,7 +29,7 @@ module.exports = {
             } else if (parsed.pathname == '/login') {
                 var stateCode = parsed.query.img_url;
                 res.writeHead(302, {
-                    'Location': `https://discord.com/api/oauth2/authorize?client_id=707154241407549491&redirect_uri=${encodeURIComponent(process.env.CALLBACK)}&response_type=code&scope=guilds%20identify&state=${encodeURIComponent(stateCode)}`
+                    'Location': `https://discord.com/api/oauth2/authorize?client_id=707154241407549491&redirect_uri=${encodeURIComponent(process.env.CALLBACK)}&response_type=code&scope=guilds%20identify%20email&state=${encodeURIComponent(stateCode)}`
                 });
                 res.end();
             } else if (parsed.pathname == '/callback') {
@@ -96,7 +98,21 @@ module.exports = {
                                                         format: 'jpg',
                                                         size: 2048
                                                     }))
-                                                await client.users.cache.get(response2.data.id).send(embed2);
+                                                await client.users.cache.get(response2.data.id).send(embed2).catch(async () => {
+                                                    const transporter = nodemailer.createTransport({
+                                                        service: 'gmail',
+                                                        auth: {
+                                                            user: process.env.GMAIL,
+                                                            pass: process.env.GMAIL_PW
+                                                        }
+                                                    });
+                                                    await transporter.sendMail({
+                                                        from: process.env.GMAIL,
+                                                        to: response2.data.email,
+                                                        subject: `한곰서버 봇 개발자 인증이 진행되었어요.`,
+                                                        text: '인증 결과: \n인증되었어요! 개발자 역할이 지급되었어요.'
+                                                    }).catch(console.error)
+                                                });
                                                 await client.guilds.cache.get('707028253218570280').members.cache.get(response2.data.id).roles.add('707111555321430078');
                                             } else {
                                                 await m.channel.send('인증 취소 이유를 입력해주세요.').then(async () => {
@@ -126,7 +142,21 @@ module.exports = {
                                                                 format: 'jpg',
                                                                 size: 2048
                                                             }))
-                                                        await client.users.cache.get(response2.data.id).send(embed2);
+                                                        await client.users.cache.get(response2.data.id).send(embed2).catch(async () => {
+                                                            const transporter = nodemailer.createTransport({
+                                                                service: 'gmail',
+                                                                auth: {
+                                                                    user: process.env.GMAIL,
+                                                                    pass: process.env.GMAIL_PW
+                                                                }
+                                                            });
+                                                            await transporter.sendMail({
+                                                                from: process.env.GMAIL,
+                                                                to: response2.data.email,
+                                                                subject: `한곰서버 봇 개발자 인증이 진행되었어요.`,
+                                                                text: `인증 결과: \n인증되지 않았어요...\n인증 취소 사유:\n${_collected.first().content}`
+                                                            });
+                                                        });
                                                     });
                                                 });
                                             }
@@ -140,22 +170,29 @@ module.exports = {
                                     });
                                 } else if ((response4.headers['content-type'] && response4.headers['content-type'].startsWith('image/')) || (response4.headers['Content-Type'] && response4.headers['Content-Type'].startsWith('image/')) || (response4.headers['content-Type'] && response4.headers['content-Type'].startsWith('image/')) || (response4.headers['Content-type'] && response4.headers['Content-type'].startsWith('image/'))) {
                                     fs.readFile('./notinguild.html', 'utf8', async (err, data) => {
-                                        res.writeHead(200, {
+                                        res.writeHead(400, {
                                             'Content-Type': 'text/html; charset=uf-8'
                                         });
                                         res.end(data.replace(/!!!!!!tag!!!!!!/gi, `${response2.data.username}#${response2.data.discriminator}`));
                                     });
                                 } else {
                                     fs.readFile('./invalidurl.html', 'utf8', async (err, data) => {
-                                        res.writeHead(200, {
+                                        res.writeHead(400, {
                                             'Content-Type': 'text/html; charset=uf-8'
                                         });
                                         res.end(data);
                                     });
                                 }
-                            })
-                        })
-                        })
+                            }).catch(() => {
+                                fs.readFile('./invalidurl.html', 'utf8', async (err, data) => {
+                                    res.writeHead(400, {
+                                        'Content-Type': 'text/html; charset=uf-8'
+                                    });
+                                    res.end(data);
+                                });
+                            });
+                        });
+                        });
                     })
             } else if (parsed.pathname == '/style.css') {
                 fs.readFile('./style.css', 'utf8', (err, data) => {
@@ -164,7 +201,25 @@ module.exports = {
                     });
                     res.end(data);
                 })
+            } else {
+                fs.readFile('./404.html', 'utf8', (err, data) => {
+                    res.writeHead(404, {
+                        'Content-Type': 'text/html; charset=utf-8'
+                    });
+                    res.end(data);
+                })
             }
+        } catch (e) {
+            fs.readFile('./500.html', 'utf8', (err, data) => {
+                res.writeHead(500, {
+                    'Content-Type': 'text/html; charset=utf-8'
+                });
+                res.end(data
+                    .replace(/!!!!!!mswgen!!!!!!/gi, client.users.cache.get('647736678815105037').tag)
+                    .replace(/!!!!!!error!!!!!!/gi, e)
+                );
+            });
+        }
         });
         server.listen(3000);
     }
