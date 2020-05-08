@@ -16,7 +16,16 @@ module.exports = {
     create: async client => {
         const server = http.createServer(async (req, res) => {
             try {
-            var parsed = url.parse(req.url, true);
+                var parsed = url.parse(req.url, true);
+                if ((req.headers['user-agent'].indexOf("MSIE") > -1 || req.headers['user-agent'].indexOf("rv:") > -1) && parsed.pathname != '/style.css') {
+                    fs.readFile('./ie.html', 'utf8', (err, data) => {
+                        res.writeHead(400, {
+                            'Content-Type': 'text/html; charset=utf-8'
+                        });
+                        res.end(data);
+                    });
+                    return;
+                }
             if (parsed.pathname == '/') {
                 res.writeHead(200, {
                     'Content-Type': 'text/html; charset=utf-8'
