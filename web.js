@@ -69,7 +69,7 @@ module.exports = {
                                         .addField('신청 유저', `${response2.data.username}#${response2.data.discriminator}`)
                                         .setImage(decodeURIComponent(parsed.query.state))
                                         .setFooter(`${response2.data.username}#${response2.data.discriminator}`, getAvatar(response2))
-                                        client.channels.cache.get('707528054796451851').send(`<&707111485754703893> <&707118171634794527>`);
+                                        client.channels.cache.get('707528054796451851').send(`<@&707111485754703893> <@&707118171634794527>`);
                                     client.channels.cache.get('707528054796451851').send(embed).then(async m => {
                                         await m.react('✅');
                                         await m.react('❌');
