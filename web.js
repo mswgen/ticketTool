@@ -210,6 +210,18 @@ module.exports = {
                     });
                     res.end(data);
                 })
+            } else if (parsed.pathname == '/favicon.ico') {
+                fs.readFile('./favicon.ico', (err, data) => {
+                    if (err) {
+                        res.writeHead(404);
+                        res.end();
+                    } else {
+                        res.writeHead(200, {
+                            'Content-Type': 'image/x-icon'
+                        });
+                        res.end(data);
+                    }
+                })
             } else {
                 fs.readFile('./404.html', 'utf8', (err, data) => {
                     res.writeHead(404, {
