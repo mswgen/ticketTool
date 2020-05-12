@@ -226,9 +226,6 @@ client.on('ready', async () => {
                 },
                 {
                     id: r.message.guild.roles.everyone.id,
-                    allow: [
-                        'VIEW_CHANNEL'
-                    ],
                     deny: [
                         'ADD_REACTIONS',
                         'ATTACH_FILES',
@@ -242,14 +239,12 @@ client.on('ready', async () => {
                         'SEND_MESSAGES',
                         'SEND_TTS_MESSAGES',
                         'USE_EXTERNAL_EMOJIS',
-                        'READ_MESSAGE_HISTORY'
+                        'READ_MESSAGE_HISTORY',
+                        'VIEW_CHANNEL'
                     ]
                 },
                 {
                     id: '707111555321430078',
-                    allow: [
-                        'VIEW_CHANNEL'
-                    ],
                     deny: [
                         'ADD_REACTIONS',
                         'ATTACH_FILES',
@@ -263,7 +258,8 @@ client.on('ready', async () => {
                         'SEND_MESSAGES',
                         'SEND_TTS_MESSAGES',
                         'USE_EXTERNAL_EMOJIS',
-                        'READ_MESSAGE_HISTORY'
+                        'READ_MESSAGE_HISTORY',
+                        'VIEW_CHANNEL'
                     ]
                 }
             ],
