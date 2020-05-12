@@ -9,7 +9,7 @@ client.on('ready', async () => {
     console.log(`Login ${client.user.username}
 -------------------------------`);
     setInterval(async () => {
-        var random = Math.floor(Math.random() * 4);
+        var random = Math.floor(Math.random() * 6);
         if (random == 0) {
             await client.user.setPresence({
                 status: 'online',
@@ -36,6 +36,22 @@ client.on('ready', async () => {
                 status: 'online',
                     activity: {
                         name: '티켓 채널에서 X를 눌러서 티켓 닫기',
+                        type: 'PLAYING'
+                    }
+            });
+        } else if (random == 4) {
+            await client.user.setPresence({
+                status: 'online',
+                    activity: {
+                        name: '개인방 신청 채널에서 이모지를 눌러서 개인방 만들기',
+                        type: 'PLAYING'
+                    }
+            });
+        } else if (random == 5) {
+            await client.user.setPresence({
+                status: 'online',
+                    activity: {
+                        name: '봇이 다운타임일 경우에 서버장이나 서버장 비서에게 DM 보내서 수동으로 작업을 처리하기',
                         type: 'PLAYING'
                     }
             });
