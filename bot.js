@@ -169,5 +169,90 @@ client.on('guildUpdate', async (_old, _new) => {
         size: 2048
     }));
 });
+client.on('message', async message => {
+    if (message.content == '!신청' && message.channel.id == '707130956322045972') {
+        if (message.guild.channels.cache.some(x => x.type == 'text' && x.topic == message.author.id)) return message.channel.send(`이미 개인방이 있는데요? ${message.guild.channels.cache.find(x => x.type == 'text' && x.topic == message.author.id)}`);
+        message.guild.channels.create(`🏡│개인방 ${message.author.tag.replace(/#/gi, '-')}`, {
+            type: 'text',
+            permissionOverwrites: [
+                {
+                    id: message.author.id,
+                    allow: [
+                        'ADD_REACTIONS',
+                        'ATTACH_FILES',
+                        'CREATE_INSTANT_INVITE',
+                        'EMBED_LINKS',
+                        'MANAGE_CHANNELS',
+                        'MANAGE_MESSAGES',
+                        'MANAGE_ROLES',
+                        'MANAGE_WEBHOOKS',
+                        'MENTION_EVERYONE',
+                        'READ_MESSAGE_HISTORY',
+                        'SEND_MESSAGES',
+                        'SEND_TTS_MESSAGES',
+                        'USE_EXTERNAL_EMOJIS',
+                        'VIEW_CHANNEL'
+                    ]
+                },
+                {
+                    id: message.guild.roles.everyone.id,
+                    allow: [
+                        'VIEW_CHANNEL',
+                        'READ_MESSAGE_HISTORY'
+                    ],
+                    deny: [
+                        'ADD_REACTIONS',
+                        'ATTACH_FILES',
+                        'CREATE_INSTANT_INVITE',
+                        'EMBED_LINKS',
+                        'MANAGE_CHANNELS',
+                        'MANAGE_MESSAGES',
+                        'MANAGE_ROLES',
+                        'MANAGE_WEBHOOKS',
+                        'MENTION_EVERYONE',
+                        'SEND_MESSAGES',
+                        'SEND_TTS_MESSAGES',
+                        'USE_EXTERNAL_EMOJIS'
+                    ]
+                },
+                {
+                    id: '707111555321430078',
+                    allow: [
+                        'VIEW_CHANNEL',
+                        'READ_MESSAGE_HISTORY'
+                    ],
+                    deny: [
+                        'ADD_REACTIONS',
+                        'ATTACH_FILES',
+                        'CREATE_INSTANT_INVITE',
+                        'EMBED_LINKS',
+                        'MANAGE_CHANNELS',
+                        'MANAGE_MESSAGES',
+                        'MANAGE_ROLES',
+                        'MANAGE_WEBHOOKS',
+                        'MENTION_EVERYONE',
+                        'SEND_MESSAGES',
+                        'SEND_TTS_MESSAGES',
+                        'USE_EXTERNAL_EMOJIS'
+                    ]
+                }
+            ],
+            parent: '707130917847564350',
+            topic: message.author.id
+        }).then(async ch => {
+            message.channel.send(`개인방이 생성되었어요! ${ch}
+(참고로 3일간 사용하지 않을 경우 삭제돼요.)`);
+            const filter = () => true;
+            const collector = ch.createMessageCollector(filter, {
+                time: 259200000
+            });
+            collector.on('end', async collected => {
+                if (collected.first()) return;
+                await ch.delete();
+                await message.author.send('3일 동안 개인방을 사용하지 않아서 채널이 자동으로 삭제되었어요.')
+            });
+        });
+    }
+});
 client.login(process.env.TOKEN);
 web.create(client);
