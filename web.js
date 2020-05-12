@@ -33,7 +33,6 @@ module.exports = {
                 });
                 fs.readFile('./logout.html', 'utf8', async (err, data) => {
                     fs.readFile('./terms', 'utf8', (_err, _data) => {
-                        console.log(req.headers)
                         res.end(data
                             .replace(/!!!!!!terms!!!!!!/gi, _data)
                             .replace(/!!!!!!browser!!!!!!/gi, `${parser(req.headers['user-agent']).browser.name} v${parser(req.headers['user-agent']).browser.version}`)
