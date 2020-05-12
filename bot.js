@@ -180,7 +180,6 @@ client.on('message', async message => {
                     allow: [
                         'ADD_REACTIONS',
                         'ATTACH_FILES',
-                        'CREATE_INSTANT_INVITE',
                         'EMBED_LINKS',
                         'MANAGE_CHANNELS',
                         'MANAGE_MESSAGES',
@@ -192,6 +191,9 @@ client.on('message', async message => {
                         'SEND_TTS_MESSAGES',
                         'USE_EXTERNAL_EMOJIS',
                         'VIEW_CHANNEL'
+                    ],
+                    deny: [
+                        'CREATE_INSTANT_INVITE'
                     ]
                 },
                 {
