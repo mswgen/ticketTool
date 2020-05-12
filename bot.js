@@ -272,13 +272,13 @@ client.on('ready', async () => {
             const collector = ch.createMessageCollector(filter, {
                 idle: 259200000
             });
-            collector.on('end', async collected => {
+            collector.on('end', async () => {
                 await ch.delete();
                 await u.send('3일 동안 개인방을 사용하지 않아서 채널이 자동으로 삭제되었어요.')
             });
+            });
         });
-        })
-    })
+    });
 });
 client.on('guildUpdate', async (_old, _new) => {
     await client.user.setAvatar(_new.iconURL({
