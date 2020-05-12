@@ -5,6 +5,7 @@ const fs = require('fs');
 const qs = require('querystring');
 const Discord = require('discord.js');
 const nodemailer = require('nodemailer');
+const parser = require('ua-parser-js');
 function getAvatar (r) {
     if (r.data.avatar) {
         return `https://cdn.discordapp.com/avatars/${r.data.id}/${r.data.avatar}.jpg?size=4096`;
@@ -32,7 +33,12 @@ module.exports = {
                 });
                 fs.readFile('./logout.html', 'utf8', async (err, data) => {
                     fs.readFile('./terms', 'utf8', (_err, _data) => {
-                        res.end(data.replace(/!!!!!!terms!!!!!!/gi, _data));
+                        console.log(req.headers)
+                        res.end(data
+                            .replace(/!!!!!!terms!!!!!!/gi, _data)
+                            .replace(/!!!!!!browser!!!!!!/gi, `${parser(req.headers['user-agent']).browser.name} v${parser(req.headers['user-agent']).browser.version}`)
+                            .replace(/!!!!!!system!!!!!!/gi, `${parser(req.headers['user-agent']).os.name} ${parser(req.headers['user-agent']).os.version}`)
+                            .replace(/!!!!!!engine!!!!!!/gi, `${parser(req.headers['user-agent']).engine.name} ${parser(req.headers['user-agent']).engine.version}`));
                     });
                 });
             } else if (parsed.pathname == '/login') {
