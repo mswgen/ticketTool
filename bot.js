@@ -161,22 +161,34 @@ client.on('ready', async () => {
             });
         });
     });
-});
-client.on('guildUpdate', async (_old, _new) => {
-    await client.user.setAvatar(_new.iconURL({
+    await client.channels.cache.get('707130956322045972').bulkDelete(1);
+    await client.channels.cache.get('707130956322045972').send(new MessageEmbed()
+    .setTitle('개인방 신청하기')
+    .setColor(0x00ffff)
+    .setDescription('개인방을 사용하려면 아래 반응을 눌러주세요.\n(3일간 사용하지 않으면 자동으로 삭제돼요.)')
+    .setThumbnail(client.guilds.cache.get('707028253218570280').iconURL({
         dynamic: true,
         format: 'jpg',
         size: 2048
-    }));
-});
-client.on('message', async message => {
-    if (message.content == '!신청' && message.channel.id == '707130956322045972') {
-        if (message.guild.channels.cache.some(x => x.type == 'text' && x.topic == message.author.id)) return message.channel.send(`이미 개인방이 있는데요? ${message.guild.channels.cache.find(x => x.type == 'text' && x.topic == message.author.id)}`);
-        message.guild.channels.create(`🏡│개인방 ${message.author.tag.replace(/#/gi, '-')}`, {
+    }))
+    .setFooter(client.guilds.cache.get('707028253218570280').name, client.guilds.cache.get('707028253218570280').iconURL({
+        dynamic: true,
+        format: 'jpg',
+        size: 2048
+    }))
+    .setTimestamp()
+    ).then(async m => {
+        await m.react('🏡');
+        const filter = (r, u) => r.emoji.name == '🏡' && !u.bot;
+        const collector = await m.createReactionCollector(filter);
+        collector.on('collect', async (r, u) => {
+            await r.users.remove(u);
+        if (r.message.guild.channels.cache.some(x => x.type == 'text' && x.topic == u.id)) return u.send(`이미 개인방이 있는데요? ${r.message.guild.channels.cache.find(x => x.type == 'text' && x.topic == u.id)}`);
+        r.message.guild.channels.create(`🏡│개인방 ${u.tag.replace(/#/gi, '-')}`, {
             type: 'text',
             permissionOverwrites: [
                 {
-                    id: message.author.id,
+                    id: u.id,
                     allow: [
                         'ADD_REACTIONS',
                         'ATTACH_FILES',
@@ -197,7 +209,7 @@ client.on('message', async message => {
                     ]
                 },
                 {
-                    id: message.guild.roles.everyone.id,
+                    id: r.message.guild.roles.everyone.id,
                     allow: [
                         'VIEW_CHANNEL',
                         'READ_MESSAGE_HISTORY'
@@ -240,21 +252,28 @@ client.on('message', async message => {
                 }
             ],
             parent: '707130917847564350',
-            topic: message.author.id
+            topic: u.id
         }).then(async ch => {
-            message.channel.send(`개인방이 생성되었어요! ${ch}
+            u.send(`개인방이 생성되었어요! ${ch}
 (참고로 3일간 사용하지 않을 경우 삭제돼요.)`);
             const filter = () => true;
             const collector = ch.createMessageCollector(filter, {
-                time: 259200000
+                idle: 259200000
             });
             collector.on('end', async collected => {
-                if (collected.first()) return;
                 await ch.delete();
-                await message.author.send('3일 동안 개인방을 사용하지 않아서 채널이 자동으로 삭제되었어요.')
+                await u.send('3일 동안 개인방을 사용하지 않아서 채널이 자동으로 삭제되었어요.')
             });
         });
-    }
+        })
+    })
+});
+client.on('guildUpdate', async (_old, _new) => {
+    await client.user.setAvatar(_new.iconURL({
+        dynamic: true,
+        format: 'jpg',
+        size: 2048
+    }));
 });
 client.login(process.env.TOKEN);
 web.create(client);
