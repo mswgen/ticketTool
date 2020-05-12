@@ -227,8 +227,7 @@ client.on('ready', async () => {
                 {
                     id: r.message.guild.roles.everyone.id,
                     allow: [
-                        'VIEW_CHANNEL',
-                        'READ_MESSAGE_HISTORY'
+                        'VIEW_CHANNEL'
                     ],
                     deny: [
                         'ADD_REACTIONS',
@@ -242,14 +241,14 @@ client.on('ready', async () => {
                         'MENTION_EVERYONE',
                         'SEND_MESSAGES',
                         'SEND_TTS_MESSAGES',
-                        'USE_EXTERNAL_EMOJIS'
+                        'USE_EXTERNAL_EMOJIS',
+                        'READ_MESSAGE_HISTORY'
                     ]
                 },
                 {
                     id: '707111555321430078',
                     allow: [
-                        'VIEW_CHANNEL',
-                        'READ_MESSAGE_HISTORY'
+                        'VIEW_CHANNEL'
                     ],
                     deny: [
                         'ADD_REACTIONS',
@@ -263,7 +262,8 @@ client.on('ready', async () => {
                         'MENTION_EVERYONE',
                         'SEND_MESSAGES',
                         'SEND_TTS_MESSAGES',
-                        'USE_EXTERNAL_EMOJIS'
+                        'USE_EXTERNAL_EMOJIS',
+                        'READ_MESSAGE_HISTORY'
                     ]
                 }
             ],
