@@ -11,7 +11,7 @@ body {
     height: 300px;
 }
 a {
-    text-decoration-color: black;
+    color: black;
     text-decoration-line: none;
 }
 #recaptcha_container {
