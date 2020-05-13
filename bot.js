@@ -1,4 +1,4 @@
-const { MessageEmbed, Client } = require('discord.js');
+const { MessageEmbed, Client, Guild } = require('discord.js');
 const client = new Client();
 const dotenv = require('dotenv');
 const web = require('./web.js');
@@ -181,7 +181,7 @@ client.on('ready', async () => {
     await client.channels.cache.get('707130956322045972').send(new MessageEmbed()
     .setTitle('개인방 신청하기')
     .setColor(0x00ffff)
-    .setDescription('개인방을 사용하려면 아래 반응을 눌러주세요.\n(3일간 사용하지 않으면 자동으로 삭제돼요.)')
+    .setDescription('개인방을 사용하려면 아래 반응을 눌러주세요.\n3일간 사용하지 않으면 자동으로 삭제돼요.(다운타임 때믄에 봇이 꺼졌으면 자동 삭제가 안될수도 있어요.)')
     .setThumbnail(client.guilds.cache.get('707028253218570280').iconURL({
         dynamic: true,
         format: 'jpg',
@@ -274,7 +274,7 @@ client.on('ready', async () => {
             });
             collector.on('end', async () => {
                 await ch.delete();
-                await u.send('3일 동안 개인방을 사용하지 않아서 채널이 자동으로 삭제되었어요.')
+                await u.send('3일 동안 개인방을 사용하지 않아서 채널이 자동으로 삭제되었어요.');
             });
             });
         });
@@ -286,6 +286,13 @@ client.on('guildUpdate', async (_old, _new) => {
         format: 'jpg',
         size: 2048
     }));
+    await client.user.setUsername(_new.name);
 });
+client.on('guildCreate', async guild => {
+    if (guild.id != '707028253218570280') {
+        await guild.owner.user.send(`이 봇은 ${client.guilds.cache.get('707028253218570280').name} 서버에서만 쓸 수 있어요! \n봇이 방금 ${guild.name}에서 자동으로 나갔어요.`);
+        await guild.leave();
+    }
+})
 client.login(process.env.TOKEN);
 web.create(client);

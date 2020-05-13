@@ -94,7 +94,7 @@ module.exports = {
                                         collector.on('end', async collected => {
                                             await m.reactions.removeAll();
                                             if (collected.first().emoji.name == '✅') {
-                                                await embed.setTitle('봇 개발자 인증 완료')
+                                                embed.setTitle('봇 개발자 인증 완료')
                                                     .setColor(0x00ffff);
                                                 await m.edit(embed);
                                                 const embed2 = new Discord.MessageEmbed()
@@ -136,7 +136,7 @@ module.exports = {
                                                     });
                                                     _collector.on('end', async _collected => {
                                                         await m.channel.bulkDelete(2);
-                                                        await embed.setTitle('봇 개발자 인증 취소됨')
+                                                        embed.setTitle('봇 개발자 인증 취소됨')
                                                             .setColor(0xff0000)
                                                             .addField('인증 취소 사유', _collected.first().content);
                                                         await m.edit(embed);
