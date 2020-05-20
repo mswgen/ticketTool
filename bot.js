@@ -179,7 +179,7 @@ client.on('guildCreate', async guild => {
 });
 client.on('guildMemberAdd', async member => {
     if (member.user.bot) return;
-    await message.channel.send(new MessageEmbed()
+    await message.guild.channels.cache.get('712236759278157854').send(new MessageEmbed()
         .setTitle(`${member.user.tag}님 반가워요!`)
         .setColor(0x00ffff)
         .setThumbnail(member.user.avatarURL({
@@ -202,7 +202,7 @@ client.on('guildMemberAdd', async member => {
 });
 client.on('guildMemberRemove', async member => {
     if (member.user.bot) return;
-    await message.channel.send(new MessageEmbed()
+    await message.guild.channels.cache.get('712236759278157854').send(new MessageEmbed()
         .setTitle(`${member.user.tag}님 가지마요...`)
         .setColor(0x00ffff)
         .setThumbnail(member.user.avatarURL({
