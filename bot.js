@@ -43,7 +43,7 @@ client.on('ready', async () => {
             await client.user.setPresence({
                 status: 'online',
                     activity: {
-                        name: '봇이 다운타임일 경우에 관리자에게 DM 보내서 수동으로 작업을 처리하기',
+                        name: '봇이 다운타임일 경우에 봇 개발자에게 DM 보내서 수동으로 작업을 처리하기',
                         type: 'PLAYING'
                     }
             });
@@ -88,7 +88,7 @@ client.on('ready', async () => {
                         ]
                     },
                     {
-                        id: '712233188793253900',
+                        id: '712926832332243034',
                         allow: [
                             'VIEW_CHANNEL',
                             'SEND_MESSAGES'
@@ -97,7 +97,7 @@ client.on('ready', async () => {
                 ],
                 parent: r.message.guild.channels.cache.find(x => x.type == 'category' && x.name == '🎫 티켓')
             }).then(async ch => {
-                await ch.send(`${u.toString()} ${r.message.guild.roles.cache.get('712233188793253900')}`)
+                await ch.send(u.tostring());
                 const ___embed = new MessageEmbed()
                     .setTitle(`${client.user.username} 로그`)
                     .addField('타입', '티켓 생성')

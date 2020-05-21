@@ -77,7 +77,7 @@ module.exports = {
                                 }).then(async response4 => {
                                 if (response3.data.some(x => x.id == '712233133571047457') && ((response4.headers['content-type'] && response4.headers['content-type'].startsWith('image/')) || (response4.headers['Content-Type'] && response4.headers['Content-Type'].startsWith('image/')) || (response4.headers['content-Type'] && response4.headers['content-Type'].startsWith('image/')) || (response4.headers['Content-type'] && response4.headers['Content-type'].startsWith('image/')))) {
                                     const embed = new Discord.MessageEmbed()
-                                        .setTitle('관리자 인증 신청')
+                                        .setTitle('봇 개발자 인증 신청')
                                         .setColor(0xffff00)
                                         .setThumbnail()
                                         .addField('신청 유저', `${response2.data.username}#${response2.data.discriminator}`)
@@ -94,13 +94,13 @@ module.exports = {
                                         collector.on('end', async collected => {
                                             await m.reactions.removeAll();
                                             if (collected.first().emoji.name == '✅') {
-                                                embed.setTitle('관리자 인증 완료')
+                                                embed.setTitle('봇 개발자 인증 완료')
                                                     .setColor(0x00ffff);
                                                 await m.edit(embed);
                                                 const embed2 = new Discord.MessageEmbed()
-                                                    .setTitle('관리자 인증이 진행되었어요')
+                                                    .setTitle('봇 개발자 인증이 진행되었어요')
                                                     .setColor(0x00ffff)
-                                                    .addField('결과', '인증되었어요! 관리자 역할이 지급되었어요.')
+                                                    .addField('결과', '인증되었어요! 봇 개발자 역할이 지급되었어요.')
                                                     .setTimestamp()
                                                     .setFooter(client.guilds.cache.get('712233133571047457').name, client.guilds.cache.get('712233133571047457').iconURL({
                                                         dynamic: true,
@@ -123,11 +123,11 @@ module.exports = {
                                                     await transporter.sendMail({
                                                         from: process.env.GMAIL,
                                                         to: response2.data.email,
-                                                        subject: `봇 실험실 3 관리자 인증이 진행되었어요.`,
-                                                        text: '인증 결과: \n인증되었어요! 관리자 역할이 지급되었어요.'
+                                                        subject: `봇 실험실 3 봇 개발자 인증이 진행되었어요.`,
+                                                        text: '인증 결과: \n인증되었어요! 봇 개발자 역할이 지급되었어요.'
                                                     }).catch(console.error)
                                                 });
-                                                await client.guilds.cache.get('712233133571047457').members.cache.get(response2.data.id).roles.add('712233188793253900');
+                                                await client.guilds.cache.get('712233133571047457').members.cache.get(response2.data.id).roles.add('712926832332243034');
                                             } else {
                                                 await m.channel.send('인증 취소 이유를 입력해주세요.').then(async () => {
                                                     const _filter = (_m) => !_m.author.bot;
@@ -136,12 +136,12 @@ module.exports = {
                                                     });
                                                     _collector.on('end', async _collected => {
                                                         await m.channel.bulkDelete(2);
-                                                        embed.setTitle('관리자 인증 취소됨')
+                                                        embed.setTitle('봇 개발자 인증 취소됨')
                                                             .setColor(0xff0000)
                                                             .addField('인증 취소 사유', _collected.first().content);
                                                         await m.edit(embed);
                                                         const embed2 = new Discord.MessageEmbed()
-                                                            .setTitle('관리자 인증이 진행되었어요')
+                                                            .setTitle('봇 개발자 인증이 진행되었어요')
                                                             .setColor(0xff0000)
                                                             .addField('결과', '인증되지 않았네요...')
                                                             .addField('인증 취소 사유', _collected.first().content)
@@ -167,7 +167,7 @@ module.exports = {
                                                             await transporter.sendMail({
                                                                 from: process.env.GMAIL,
                                                                 to: response2.data.email,
-                                                                subject: `봇 실험실 3 관리자 인증이 진행되었어요.`,
+                                                                subject: `봇 실험실 3 봇 개발자 인증이 진행되었어요.`,
                                                                 text: `인증 결과: \n인증되지 않았어요...\n인증 취소 사유:\n${_collected.first().content}`
                                                             });
                                                         });
@@ -248,5 +248,8 @@ module.exports = {
         }
         });
         server.listen(5000);
+        setInterval(() => {
+            axios.get('https://blab.ga');
+        }, 240000);
     }
 }
