@@ -23,6 +23,7 @@ module.exports = {
                         'Location': `${req.headers.referer.replace(/http:\/\//gi, 'https://')}${req.url.split('').slice(1).join('')}`
                     });
                     res.end();
+                    return;
                 }
                 if ((req.headers['user-agent'].indexOf("MSIE") > -1 || req.headers['user-agent'].indexOf("rv:") > -1) && parsed.pathname != '/style.css') {
                     fs.readFile('./ie.html', 'utf8', (err, data) => {
