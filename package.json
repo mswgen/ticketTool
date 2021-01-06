@@ -19,7 +19,7 @@
     "dependencies": {
         "discord.js": "12.1.1",
         "dotenv": "8.2.0",
-        "axios": "0.19.2",
+        "axios": "0.21.1",
         "nodemailer": "6.4.6",
         "ua-parser-js": "0.7.21"
     }
