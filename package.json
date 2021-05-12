@@ -20,7 +20,7 @@
         "discord.js": "12.1.1",
         "dotenv": "8.2.0",
         "axios": "0.19.2",
-        "nodemailer": "6.4.6",
+        "nodemailer": "6.4.16",
         "ua-parser-js": "0.7.21"
     }
 }
